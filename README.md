@@ -20,35 +20,14 @@ The producer microservice publishes events/messages to Kafka topics for event-dr
 - #### Reset offsets for a topic: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group <group-id> --reset-offsets --to-earliest --execute --topic <topic-name>`
 - #### Reset offsets for all topics: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group <group-id> --reset-offsets --to-earliest --execute --all-topics`
 
-### Consumer Commands
-- #### Create a consumer group: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --topic <topic-name> --group <group-name>`
-- #### List consumer groups: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list`
-- #### Consume messages from a topic: `./bin/kafka-console-consumer.sh --topic <topic-name> --bootstrap-server localhost:9092 --from-beginning`
-- #### Produce messages to a topic: `./bin/kafka-console-producer.sh --topic <topic-name> --bootstrap-server localhost:9092`
-- #### Describe consumer group: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group <group-id>`
-- #### Reset consumer group offsets: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group <group-id> --reset-offsets --to-earliest --execute --all-topics`
-- #### Reset consumer group offsets for a topic: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group <group-id> --reset-offsets --to-earliest --execute --topic <topic-name>`
-- #### Reset consumer group offsets for a topic partition: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group <group-id> --reset-offsets --to-earliest --execute --topic <topic-name> --partition <partition-id>`
-- #### Reset consumer group offsets for a topic partition to a specific offset: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group <group-id> --reset-offsets --to-offset <offset> --execute --topic <topic-name> --partition <partition-id>`
-- #### Reset consumer group offsets for a topic partition to a specific timestamp: `./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group <group-id> --reset-offsets --to-datetime <timestamp> --execute --topic <topic-name> --partition <partition-id>`
+### Console Producer commands
+- #### Publish messages to a topic: `./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic <topic-name>`
+- #### Publish messages to a topic with key: `./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic <topic-name> --property "parse.key=true" --property "key.separator=:"`
 
-## Kafka Producer Configuration
-- #### Producer Configuration: `./config/producer.properties`
-- #### Producer Configuration with SSL: `./config/producer-ssl.properties`
-- #### Producer Configuration with SASL_SSL: `./config/producer-sasl-ssl.properties`
-- #### Producer Configuration with ACLs: `./config/producer-acls.properties`
-- #### Producer Configuration with ACLs and SSL: `./config/producer-acls-ssl.properties`
-- #### Producer Configuration with ACLs and SASL_SSL: `./config/producer-acls-sasl-ssl.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL: `./config/producer-acls-sasl-ssl-ssl.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL and Kerberos: `./config/producer-acls-sasl-ssl-ssl-kerberos.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL and Kerberos and ACLs: `./config/producer-acls-sasl-ssl-ssl-kerberos-acls.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL and Kerberos and ACLs and SASL_SSL: `./config/producer-acls-sasl-ssl-ssl-kerberos-acls-sasl-ssl.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL and Kerberos and ACLs and SASL_SSL and SSL: `./config/producer-acls-sasl-ssl-ssl-kerberos-acls-sasl-ssl-ssl.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL and Kerberos and ACLs and SASL_SSL and SSL and ACLs: `./config/producer-acls-sasl-ssl-ssl-kerberos-acls-sasl-ssl-ssl-acls.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL and Kerberos and ACLs and SASL_SSL and SSL and ACLs and SASL_SSL: `./config/producer-acls-sasl-ssl-ssl-kerberos-acls-sasl-ssl-ssl-acls-sasl-ssl.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL and Kerberos and ACLs and SASL_SSL and SSL and ACLs and SASL_SSL and ACLs: `./config/producer-acls-sasl-ssl-ssl-kerberos-acls-sasl-ssl-ssl-acls-sasl-ssl-acls.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL and Kerberos and ACLs and SASL_SSL and SSL and ACLs and SASL_SSL and ACLs and SSL: `./config/producer-acls-sasl-ssl-ssl-kerberos-acls-sasl-ssl-ssl-acls-sasl-ssl-acls-ssl.properties`
-- #### Producer Configuration with ACLs and SASL_SSL and SSL and Kerberos and ACLs and SASL_SSL and SSL and ACLs and SASL_SSL and ACLs and SSL and ACLs: `./config/producer-acls-sasl-ssl-ssl-kerberos-acls-sasl-ssl-ssl-acls-sasl-ssl-acls-ssl-acls.properties`
+### Console Consumer commands
+- #### Consume messages from a topic: `./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic <topic-name> --from-beginning`
+- #### Consume messages from a topic with key: `./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic <topic-name> --from-beginning --property "print.key=true" --property "key.separator=:"`
+- #### Consume messages from a topic with group: `./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic <topic-name> --group <group-id>`
 
 ## Help
 ### If you see below error on zookeeper starts:-

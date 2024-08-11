@@ -1,6 +1,7 @@
 package com.kafka.streams.basic.topology;
 
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
@@ -30,7 +31,10 @@ public class GreetingsTopology {
         kStream.print(Printed.<String, String>toSysOut().withLabel("greetingsStream"));
 
         KStream<String, String> modifiedKStream = kStream
-                .mapValues((readOnlyKey, value) -> value.toUpperCase());
+                //.filter((key, value) -> value.length() > 5)
+                //.filterNot((key, value) -> value.length() > 5)
+                //.mapValues((readOnlyKey, value) -> value.toUpperCase());
+                .map((key, value) -> KeyValue.pair(key.toUpperCase(), value.toUpperCase()));
 
         modifiedKStream.print(Printed.<String, String>toSysOut().withLabel("modifiedKStream"));
 
