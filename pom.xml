@@ -11,8 +11,12 @@
     <groupId>com.kafka.producer</groupId>
     <artifactId>kafka-producer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>kafka-producer</name>
     <description>kafka-producer</description>
+    <modules>
+        <module>greeting-streams</module>
+    </modules>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -22,9 +26,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
