@@ -1,4 +1,4 @@
-package com.kafka.producer.publisher;
+package com.kafka.orders.publisher;
 
 import com.kafka.dto.MessagePayload;
 import lombok.extern.slf4j.Slf4j;

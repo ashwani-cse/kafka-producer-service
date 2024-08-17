@@ -1,4 +1,4 @@
-package com.kafka.producer;
+package com.kafka.orders;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

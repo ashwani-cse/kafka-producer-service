@@ -1,7 +1,7 @@
-package com.kafka.producer.controller;
+package com.kafka.orders.controller;
 
 import com.kafka.dto.MessagePayload;
-import com.kafka.producer.publisher.KafkaMessagePublisher;
+import com.kafka.orders.publisher.KafkaMessagePublisher;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;

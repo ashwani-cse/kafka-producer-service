@@ -1,7 +1,6 @@
-package com.kafka.streams.basic.launcher;
+package com.kafka.orders;
 
-import com.kafka.streams.basic.TopicCreater;
-import com.kafka.streams.basic.topology.GreetingsTopology;
+import com.kafka.orders.topology.OrdersTopology;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -18,29 +17,30 @@ import java.util.Properties;
  * Created on 07/08/24.
  */
 @Slf4j
-public class GreetingsStreamApp {
+public class OrdersStreamApp {
 
     private static Properties props() {
         Properties properties = new Properties();
         properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "greetings-app");
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,
-                // Serdes.String().getClass().getName());
-                Serdes.StringSerde.class);
+        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "orders-app");
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+        // properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,
+        // Serdes.String().getClass().getName());
+        // Serdes.StringSerde.class);
 
-        properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,
-                // Serdes.String().getClass().getName());
-                Serdes.StringSerde.class);
+        // properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,
+        // Serdes.String().getClass().getName());
+        //  Serdes.StringSerde.class);
 
         return properties;
     }
 
     public static void main(String[] args) {
-        List<String> topics = List.of(GreetingsTopology.GREETINGS_TOPIC, GreetingsTopology.GREETINGS_SPANIISH_TOPIC, GreetingsTopology.GREETINGS_UPPERCASE_TOPIC);
+        List<String> topics = List.of(OrdersTopology.ORDERS_TOPIC,
+                OrdersTopology.GENERAL_ORDERS_TOPIC, OrdersTopology.RESTAURANT_ORDERS_TOPIC);
         TopicCreater.createTopics(props(), topics, 1, 1);
 
-        Topology topology = GreetingsTopology.buildTopology(); // Create the topology
+        Topology topology = OrdersTopology.buildTopology(); // Create the topology
 
         KafkaStreams kafkaStreams = new KafkaStreams(topology, props()); // Create the Kafka Streams application
 
