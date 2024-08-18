@@ -1,6 +1,7 @@
 package com.kafka.orders;
 
 import com.kafka.orders.exception.StreamDeserializationExceptionHandler;
+import com.kafka.orders.exception.StreamProcessorCustomErrorHandler;
 import com.kafka.orders.topology.OrdersTopology;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -45,9 +46,11 @@ public class OrdersStreamApp {
                 OrdersTopology.GENERAL_ORDERS_TOPIC, OrdersTopology.RESTAURANT_ORDERS_TOPIC);
         TopicCreater.createTopics(props(), topics, 1, 1);
 
-        Topology topology = OrdersTopology.buildTopology(); // Create the topology
+        //Topology topology = OrdersTopology.buildTopology(); // Create the topology
+        Topology topology = OrdersTopology.exploreStreamErrors();
 
         KafkaStreams kafkaStreams = new KafkaStreams(topology, props()); // Create the Kafka Streams application
+        kafkaStreams.setUncaughtExceptionHandler(new StreamProcessorCustomErrorHandler()); // Log and continue on exceptions
 
         Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close)); // Graceful shutdown
 

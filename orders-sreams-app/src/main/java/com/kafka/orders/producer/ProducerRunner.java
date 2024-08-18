@@ -91,7 +91,8 @@ public class ProducerRunner {
         );
 
         var order1 = new Order(12345, "store_1234",
-                new BigDecimal("27.00"),
+               // new BigDecimal("27.00"),
+                new BigDecimal("0.00"), // to test stream error
                 OrderType.GENERAL,
                 orderItems,
                 LocalDateTime.now()
