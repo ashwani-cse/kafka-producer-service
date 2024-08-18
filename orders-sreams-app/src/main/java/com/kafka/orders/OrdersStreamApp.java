@@ -2,6 +2,7 @@ package com.kafka.orders;
 
 import com.kafka.orders.exception.StreamDeserializationExceptionHandler;
 import com.kafka.orders.exception.StreamProcessorCustomErrorHandler;
+import com.kafka.orders.exception.StreamSerializationExceptionHandler;
 import com.kafka.orders.topology.OrdersTopology;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -37,7 +38,8 @@ public class OrdersStreamApp {
         //  Serdes.StringSerde.class);
         properties.put(StreamsConfig.DEFAULT_DESERIALIZATION_EXCEPTION_HANDLER_CLASS_CONFIG,
                 StreamDeserializationExceptionHandler.class); // helpful in cases where we dont want to stop application  for any deserialization exception
-
+        properties.put(StreamsConfig.DEFAULT_PRODUCTION_EXCEPTION_HANDLER_CLASS_CONFIG,
+                StreamSerializationExceptionHandler.class); // helpful in cases where we dont want to stop application  for any serialization exception
         return properties;
     }
 
