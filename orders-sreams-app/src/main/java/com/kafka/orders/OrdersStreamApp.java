@@ -1,5 +1,6 @@
 package com.kafka.orders;
 
+import com.kafka.orders.exception.StreamDeserializationExceptionHandler;
 import com.kafka.orders.topology.OrdersTopology;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -7,6 +8,7 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.errors.LogAndContinueExceptionHandler;
 import org.apache.kafka.streams.errors.StreamsException;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class OrdersStreamApp {
         properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "orders-app");
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+        properties.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, 2); // Runtime.getRuntime().availableProcessors());
         // properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,
         // Serdes.String().getClass().getName());
         // Serdes.StringSerde.class);
@@ -31,6 +34,8 @@ public class OrdersStreamApp {
         // properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,
         // Serdes.String().getClass().getName());
         //  Serdes.StringSerde.class);
+        properties.put(StreamsConfig.DEFAULT_DESERIALIZATION_EXCEPTION_HANDLER_CLASS_CONFIG,
+                StreamDeserializationExceptionHandler.class); // helpful in cases where we dont want to stop application  for any deserialization exception
 
         return properties;
     }

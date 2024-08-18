@@ -2,6 +2,7 @@ package com.kafka.orders.topology;
 
 import com.kafka.orders.domain.Order;
 import com.kafka.orders.domain.OrderType;
+import com.kafka.orders.domain.Revenue;
 import com.kafka.orders.serdes.SerdesFactory;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -22,6 +23,7 @@ public class OrdersTopology {
 
     static Predicate<String, Order> generalPredicate = (key, order) -> order.orderType().equals(OrderType.GENERAL);
     static Predicate<String, Order> restaurantPredicate = (key, order) -> order.orderType().equals(OrderType.RESTAURANT);
+    static ValueMapper<Order, Revenue> revenueMapper = order -> new Revenue(order.locationId(), order.finalAmount());
 
     public static Topology buildTopology() {
         StreamsBuilder streamsBuilder = new StreamsBuilder();
@@ -36,15 +38,19 @@ public class OrdersTopology {
                 .branch(generalPredicate,
                         Branched.withConsumer(generalOrdersStream -> {
                             generalOrdersStream.print(Printed.<String, Order>toSysOut().withLabel("generalOrdersStream"));
-                            generalOrdersStream.to(GENERAL_ORDERS_TOPIC,
-                                    Produced.with(Serdes.String(), SerdesFactory.orderSerdes()));
+                            generalOrdersStream
+                                    .mapValues(((readOnlyKey, value) -> revenueMapper.apply(value)))
+                                    .to(GENERAL_ORDERS_TOPIC,
+                                    Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
                         })
                 )
                 .branch(restaurantPredicate,
                         Branched.withConsumer(restaurantOrdersStream -> {
                             restaurantOrdersStream.print(Printed.<String, Order>toSysOut().withLabel("restaurantOrdersStream"));
-                            restaurantOrdersStream.to(RESTAURANT_ORDERS_TOPIC,
-                                    Produced.with(Serdes.String(), SerdesFactory.orderSerdes()));
+                            restaurantOrdersStream
+                                    .mapValues(((readOnlyKey, value) -> revenueMapper.apply(value)))
+                                    .to(RESTAURANT_ORDERS_TOPIC,
+                                    Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
                         })
                 );
 
