@@ -17,6 +17,7 @@
     <modules>
         <module>greeting-streams</module>
         <module>orders-sreams-app</module>
+        <module>advanced-streams</module>
     </modules>
     <properties>
         <java.version>17</java.version>

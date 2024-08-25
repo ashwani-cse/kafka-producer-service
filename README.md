@@ -102,5 +102,25 @@ t2_group        t2              2          0               0               0    
 - **Adding Consumers:** More consumers than partitions will not increase consumption but allows for future scalability.
 - **Removing Consumers:** Fewer consumers will handle more partitions until a rebalance occurs.
 
+## Stateful operations in Kafka Streams
+- **Stateful Operations:** Operations that require maintaining state across multiple records in a stream.
+- **State Store:** The state is typically stored in state stores, which can be backed by a local storage or a distributed database like RocksDB.
+- **Fault Tolerance:** Kafka Streams provides fault tolerance by backing up state stores to Kafka topics.
+- **Recovery:** When a Kafka Streams application restarts, it can restore the state from the backup topics.
+- **State Store:** The state store is partitioned to allow for parallel processing and scalability.
+### Stateful Operations
+- **Aggregations:** Combining multiple records into a single record. Examples include sum, count, average, and min/max.
+- **Joins:** Combining records from multiple streams based on a common key. Examples include inner join, left join, and outer join.
+- **Windowed Operations:** Grouping records in certain time windows. Examples calculate total number of orders in the last 5 minutes.
+
+#### How Aggregations work in Kafka Streams
+- Aggregations works only on Kafka records that have non-null keys.
+- **Operations:**
+- **Count:** Counts the number of records.
+- **Reduce:** Combines records using a custom reducer.
+- **Aggregate:** Combines records using a custom aggregator.
+
+
+
 
 
