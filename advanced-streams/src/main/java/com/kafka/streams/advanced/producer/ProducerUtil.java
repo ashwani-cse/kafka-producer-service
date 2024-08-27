@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+import static java.time.Instant.now;
 
 public class ProducerUtil {
     private static final Logger logger = LoggerFactory.getLogger(ProducerUtil.class.getName());
@@ -31,11 +34,21 @@ public class ProducerUtil {
 
     public RecordMetadata publishMessageSync(String topicName, String key, String message) {
         ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topicName, key, message);
+        return getRecordMetadata(producerRecord);
+    }
+
+    public RecordMetadata publishMessageSyncWithDelay(String topicName, String key, String message, long delay) {
+        long delayMillis = now().plusSeconds(delay).toEpochMilli();
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topicName, 0, delayMillis, key, message);
+        return getRecordMetadata(producerRecord);
+    }
+
+    private RecordMetadata getRecordMetadata(ProducerRecord<String, String> producerRecord) {
         RecordMetadata recordMetadata = null;
         try {
             recordMetadata = producer.send(producerRecord).get();
             logger.info("produced Record : topicName:{} partition:{}, timestamp:{}",
-                    topicName,
+                    recordMetadata.topic(),
                     recordMetadata.partition(),
                     recordMetadata.timestamp());
             Thread.sleep(1000);

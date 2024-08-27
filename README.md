@@ -120,6 +120,36 @@ t2_group        t2              2          0               0               0    
 - **Reduce:** Combines records using a custom reducer.
 - **Aggregate:** Combines records using a custom aggregator.
 
+## Repartitioning in Kafka Streams
+
+Repartitioning is a critical operation in Kafka Streams, ensuring that records with the same key are processed in the same partition. However, it can be resource-intensive, so it's important to understand and optimize its usage.
+
+### When Does Repartitioning Occur?
+
+- **Grouping:** Repartitioning happens when records are grouped by a new key using `groupBy()`.
+- **Joining:** During join operations, repartitioning aligns records with the same key from different streams or tables.
+- **Windowing:** Repartitioning ensures that windowed records with the same key are processed together.
+
+### Impact of Repartitioning
+
+- **Processing Overhead:** Repartitioning involves writing to a new topic and reading from it, increasing I/O operations, latency, and resource usage.
+
+### Avoid Repartitioning
+- **Optimize Key Selection:** Choose keys that minimize repartitioning, such as keys with high cardinality.
+- **Use Local State:** When possible, use local state stores to avoid repartitioning.
+- **Avoid Unnecessary Operations:** Minimize operations that trigger repartitioning, such as unnecessary groupings or joins.
+- **Partitioning Strategy:** Use a custom partitioner to control how records are distributed across partitions.
+- **Repartitioning Strategies:** Use strategies like co-partitioning to minimize repartitioning during joins.
+- **State Store:** Use RocksDB as a state store to avoid repartitioning for stateful operations.
+- **Performance Monitoring:** Monitor repartitioning operations to identify bottlenecks and optimize performance.
+- **Scaling:** Scale your Kafka Streams application to distribute the workload and reduce the impact of repartitioning.
+- **Testing:** Test your application with different partitioning strategies and configurations to optimize performance.
+- **Benchmarking:** Benchmark your application to measure the impact of repartitioning on latency, throughput, and resource usage.
+- **Tuning:** Fine-tune your Kafka Streams application based on performance metrics to optimize repartitioning and overall performance.
+- **Optimization:** Continuously optimize your application to reduce repartitioning overhead and improve performance.
+
+
+
 
 
 

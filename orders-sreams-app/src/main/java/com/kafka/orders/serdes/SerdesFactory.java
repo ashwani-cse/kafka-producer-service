@@ -2,6 +2,7 @@ package com.kafka.orders.serdes;
 
 import com.kafka.orders.domain.Order;
 import com.kafka.orders.domain.Revenue;
+import com.kafka.orders.domain.TotalRevenue;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 
@@ -22,6 +23,13 @@ public class SerdesFactory {
     static public Serde<Revenue> revenueSerdes() {
         JsonSerializer<Revenue> jsonSerializer = new JsonSerializer<>();
         JsonDeserializer<Revenue> jsonDeserializer = new JsonDeserializer<>(Revenue.class);
+
+        return Serdes.serdeFrom(jsonSerializer, jsonDeserializer);
+    }
+
+    public static Serde<TotalRevenue> totalRevenueSerdes() {
+        JsonSerializer<TotalRevenue> jsonSerializer = new JsonSerializer<>();
+        JsonDeserializer<TotalRevenue> jsonDeserializer = new JsonDeserializer<>(TotalRevenue.class);
 
         return Serdes.serdeFrom(jsonSerializer, jsonDeserializer);
     }
