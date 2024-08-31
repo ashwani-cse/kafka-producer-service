@@ -50,7 +50,7 @@ public class OrdersTopology {
                                     .mapValues(((readOnlyKey, value) -> revenueMapper.apply(value)))
                                     .to(GENERAL_ORDERS_TOPIC,
                                     Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));*/
-                           // aggregateOrdersCountByStores(generalOrdersStream, GENERAL_ORDERS_TOPIC);
+                           aggregateOrdersCountByStores(generalOrdersStream, GENERAL_ORDERS_TOPIC);
                             aggregateOrdersByRevenueByStores(generalOrdersStream, GENERAL_ORDERS_TOPIC);
                         })
                 )
@@ -61,7 +61,7 @@ public class OrdersTopology {
                                     .mapValues(((readOnlyKey, value) -> revenueMapper.apply(value)))
                                     .to(RESTAURANT_ORDERS_TOPIC,
                                     Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));*/
-                            //aggregateOrdersCountByStores(restaurantOrdersStream, RESTAURANT_ORDERS_TOPIC);
+                            aggregateOrdersCountByStores(restaurantOrdersStream, RESTAURANT_ORDERS_TOPIC);
                             aggregateOrdersByRevenueByStores(restaurantOrdersStream, RESTAURANT_ORDERS_TOPIC);
                         })
                 );
