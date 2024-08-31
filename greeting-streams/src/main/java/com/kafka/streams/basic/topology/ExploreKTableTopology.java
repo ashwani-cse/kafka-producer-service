@@ -13,6 +13,7 @@ import org.apache.kafka.streams.kstream.*;
 @Slf4j
 public class ExploreKTableTopology {
     public static String WORDS = "words";
+    public static String WORDS_OUTPUT = "words-output";
 
     public static Topology buildTopology() {
         StreamsBuilder streamsBuilder = new StreamsBuilder();
@@ -26,8 +27,9 @@ public class ExploreKTableTopology {
 
         stringKTable.filter((key, value) -> value.length() > 1)
                 .toStream()
-                .peek((key, value) -> log.info("key : {}, value : {}", key, value))
-                .print(Printed.<String, String>toSysOut().withLabel("filteredKTable"));
+                .to(WORDS_OUTPUT, Produced.with(Serdes.String(), Serdes.String()));
+               // .peek((key, value) -> log.info("key : {}, value : {}", key, value))
+               //.print(Printed.<String, String>toSysOut().withLabel("filteredKTable"));
         return streamsBuilder.build();
     }
 }
